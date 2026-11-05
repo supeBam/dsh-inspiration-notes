@@ -22,6 +22,24 @@
 
 装入后在 App 里刷新（`⌘ R`）生效，左侧边栏会出现便签图标。
 
+## 给 Agent 的安装指令
+
+本仓库根目录就是插件包本体。一条命令装进 DSH profile（`dsh plugin` 会把参数转发给 profile 内的 pnpm，并把包写进 `dsh.profile.bundles`）：
+
+```bash
+git clone https://github.com/supeBam/dsh-inspiration-notes.git ~/code/dsh-plugins/inspiration-notes
+dsh plugin --profile desktop add link:"$HOME/code/dsh-plugins/inspiration-notes"
+```
+
+桌面端若 `dsh` 被守卫拦下，改用应用自带 CLI：
+
+```bash
+/Applications/DeepSeek\ Harness.app/Contents/Resources/runtime/cli/bin/dsh \
+  plugin --profile desktop add link:"$HOME/code/dsh-plugins/inspiration-notes"
+```
+
+装完刷新页面（Web）或 `⌘Q` 完全退出再打开（Desktop）生效。完整的安装、验证、更新、卸载与排障手册见 [AGENTS.md](AGENTS.md)。
+
 ## 结构
 
 ```
