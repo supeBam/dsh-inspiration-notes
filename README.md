@@ -65,6 +65,6 @@ inspiration-notes/
 
 ## 许可
 
-[MIT](LICENSE) © 2026 superfox
+[MIT](LICENSE) © 2026 superfox (github.com/supeBam)
 
 可以自由使用、修改、分发，包括商业用途，只需保留版权与许可声明。名称「灵感便签」与图标不在授权范围内。
