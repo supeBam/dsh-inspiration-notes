@@ -1,6 +1,7 @@
 {
   "name": "@local/inspiration-notes",
   "version": "1.0.0",
+  "license": "MIT",
   "private": true,
   "description": "Sticky-notes panel opened from the left sidebar for capturing inspiration at any time.",
   "type": "module",
