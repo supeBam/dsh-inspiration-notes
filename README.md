@@ -1,0 +1,50 @@
+# 灵感便签 · Inspiration Notes
+
+一个挂在 **DeepSeek Harness（DSH）** 左侧边栏的便签面板：随手记灵感，随时翻回来，不打断当前会话。
+
+左侧边栏图标点开即用，面板在中间主区展开（与会话切换互斥，切换会话时自动让位）。
+
+## 功能
+
+- **随手记录**：输入框自动保存草稿，切面板、刷新页面都不丢；`⌘ / Ctrl + Enter` 保存
+- **搜索**：按正文实时过滤
+- **行内标签**：正文里写 `#标签` 自动变成标签胶囊，点一下只看该标签，再点清除筛选
+- **置顶**：重要便签固定在列表顶部，带高亮条与「已置顶」标记
+- **编辑 / 删除**：删除需二次确认，避免误触
+- **复制**：一键复制原文，或复制「正文（不含 #标签）」
+- **相对时间**：刚刚 / N 分钟前 / N 小时前 / N 天前
+- **中英双语**：跟随界面语言
+- **纯本地**：便签存在浏览器 `localStorage`（按 origin 隔离），不写会话日志、不上传服务器
+
+## 安装
+
+这是一个 **本地 bundle 插件**，不是从 npm 安装的公开包。把本仓库放到本地任意目录，然后在 DSH 的插件管理里按「本地包」方式装入该目录（`package.json` 的包名为 `@local/inspiration-notes`）。
+
+装入后在 App 里刷新（`⌘ R`）生效，左侧边栏会出现便签图标。
+
+## 结构
+
+```
+inspiration-notes/
+├── package.json          # 包元数据；dsh.bundle.patch 与 dsh.client 声明入口
+├── index.js              # 宿主侧（Host）半边：空 apply，保证 bundle 行可加载
+├── client.js             # 浏览器侧（Client）半边：侧边栏入口 + 便签面板，全部 UI 与逻辑
+├── cordis.patch.yml      # Bundle patch：插入 inspiration-notes 这一行
+├── icon.svg              # 图标
+└── locale/
+    ├── zh.json
+    └── en.json
+```
+
+## 实现说明
+
+- **无构建步骤**：`client.js` 通过 `window.__ModuleLoader__.load({ id, factory })` 注册，全程 `React.createElement`，改完刷新即生效。
+- **两处注册，一个身份**（`id = inspiration-notes`）：
+  - `sidebar.panellist` 列表里的一行——shell 自己渲染按钮、文字、选中态，本插件只提供图标与本地化文案；
+  - `main` 槽位上的 keyed 面板——shell 在选中该面板时挂载，离开时卸载。
+- **状态归属浏览器**：存储键 `dsh.inspiration-notes.v1`（便签）与 `dsh.inspiration-notes.v1:draft`（草稿），按 origin 隔离，所以没选会话时也能用。
+- 样式是组件内联注入（`<style>`），卸载即移除，不会污染全局样式。
+
+## 许可
+
+暂未指定开源许可证。

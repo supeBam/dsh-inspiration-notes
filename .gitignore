@@ -1,0 +1,11 @@
+# macOS
+.DS_Store
+
+# 依赖与构建产物（本插件无构建步骤，仅作兜底）
+node_modules/
+dist/
+*.log
+
+# 编辑器
+.vscode/
+.idea/
